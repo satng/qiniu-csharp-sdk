@@ -11,7 +11,7 @@ namespace Qiniu.Util
         [JsonProperty("deadline")]
         public int Deadline { set; get; }
         [JsonProperty("insertOnly")]
-        public int InsertOnly { set; get; }
+        public int? InsertOnly { set; get; }
         [JsonProperty("saveKey")]
         public string SaveKey { set; get; }
         [JsonProperty("endUser")]
@@ -31,7 +31,7 @@ namespace Qiniu.Util
         [JsonProperty("callbackHost")]
         public string CallbackHost { set; get; }
         [JsonProperty("callbackFetchKey")]
-        public string CallbackFetchKey { set; get; }
+        public int? CallbackFetchKey { set; get; }
 
         [JsonProperty("persistentOps")]
         public string PersistentOps { set; get; }
@@ -41,16 +41,16 @@ namespace Qiniu.Util
         public string PersistentPipeline { set; get; }
 
         [JsonProperty("fsizeLimit")]
-        public int FsizeLimit { set; get; }
+        public int? FsizeLimit { set; get; }
         [JsonProperty("detectMime")]
-        public int DetectMime { set; get; }
+        public int? DetectMime { set; get; }
         [JsonProperty("mimeLimit")]
         public string MimeLimit { set; get; }
 
         public void SetExpires(int expireInSeconds)
         {
-            TimeSpan ts = DateTime.Now.Subtract(new DateTime(1970, 1, 1, 0, 0, 0));
-            this.Deadline = (int)ts.TotalSeconds;
+            TimeSpan ts = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1, 0, 0, 0));
+            this.Deadline = (int)ts.TotalSeconds + expireInSeconds;
         }
 
         public override string ToString()
