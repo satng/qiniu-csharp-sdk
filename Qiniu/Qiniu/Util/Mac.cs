@@ -38,7 +38,7 @@ namespace Qiniu.Util
         public string SignRequest(string url, byte[] reqBody)
         {
             Uri u = new Uri(url);
-            using (HMACSHA1 hmac = new HMACSHA1(Encoding.UTF8.GetBytes(SecretKey)))
+            using (HMACSHA1 hmac = new HMACSHA1(Encoding.UTF8.GetBytes(this.SecretKey)))
             {
                 string pathAndQuery = u.PathAndQuery;
                 byte[] pathAndQueryBytes = Encoding.UTF8.GetBytes(pathAndQuery);

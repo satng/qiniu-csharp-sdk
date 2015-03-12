@@ -92,6 +92,11 @@ namespace Qiniu.Http
             return StatusCode == 200 && Error == null && ReqId != null;
         }
 
+        public bool isDone()
+        {
+            return StatusCode == 200 && ReqId != null;
+        }
+
         /// <summary>
         /// 检测是否网络故障
         /// </summary>

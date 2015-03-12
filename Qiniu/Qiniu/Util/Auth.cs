@@ -12,7 +12,7 @@ namespace Qiniu.Util
 
         public static string createManageToken(string url, byte[] reqBody, Mac mac)
         {
-            return mac.SignRequest(url, reqBody);
+            return string.Format("QBox {0}",mac.SignRequest(url, reqBody));
         }
     }
 }

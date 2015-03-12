@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -105,6 +106,29 @@ namespace Qiniu.Util
         {
             SHA1 sha1 = new SHA1CryptoServiceProvider();
             return sha1.ComputeHash(data);
+        }
+
+        public static string urlencode(string from)
+        {
+            return Uri.EscapeDataString(from);
+        }
+
+        public static string urlParamsJoin(Dictionary<string, string> dict)
+        {
+            StringBuilder sb = new StringBuilder();
+            int count = dict.Count;
+            int i = 0;
+            foreach (KeyValuePair<string, string> kvp in dict)
+            {
+                sb.Append(Uri.EscapeDataString(kvp.Key)).Append("=")
+                    .Append(Uri.EscapeDataString(kvp.Value));
+                if (i < count - 1)
+                {
+                    sb.Append("&");
+                }
+                i++;
+            }
+            return sb.ToString();
         }
     }
 }
