@@ -26,12 +26,11 @@ namespace Qiniu.Storage
         {
             get
             {
-                this.extraParams = filterParams(extraParams);
-                return this.extraParams;
+                return filterParams(extraParams);
             }
             set
             {
-                this.extraParams = filterParams(extraParams);
+                this.extraParams = value;
             }
         }
 
@@ -80,7 +79,6 @@ namespace Qiniu.Storage
             Dictionary<string, string> filtered = new Dictionary<string, string>();
             if (extraParamsToFilter != null)
             {
-
                 foreach (KeyValuePair<string, string> kvp in extraParamsToFilter)
                 {
                     if (kvp.Key.StartsWith("x:") && kvp.Value != null && kvp.Value.Trim().Length > 0)

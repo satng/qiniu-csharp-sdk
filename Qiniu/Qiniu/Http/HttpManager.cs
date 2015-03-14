@@ -18,7 +18,7 @@ namespace Qiniu.Http
         private const string APPLICATION_OCTET_STREAM = "application/octet-stream";
         private const string APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
         private const string APPLICATION_MULTIPART_FORM = "multipart/form-data";
-        private const string MULTIPART_BOUNDARY = "-------WindowsPhoneBoundaryjEdoki6WbQVQuakI";
+        private const string MULTIPART_BOUNDARY = "-------CSharpSDKBoundaryjEdoki6WbQVQuakI";
         private const string MULTIPART_BOUNDARY_SEP_TAG = "--";
         private const string MULTIPART_SEP_LINE = "\r\n";
         private const int BUFFER_SIZE = 4096;//4KB
