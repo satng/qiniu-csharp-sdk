@@ -179,7 +179,14 @@ namespace Qiniu.Http
             }
             foreach (string headerKey in this.Headers.AllKeys)
             {
-                this.webRequest.Headers[headerKey] = this.Headers[headerKey];
+                if (headerKey.Equals("Content-Type"))
+                {
+                    this.webRequest.ContentType = this.Headers[headerKey];
+                }
+                else
+                {
+                    this.webRequest.Headers[headerKey] = this.Headers[headerKey];
+                }
             }
             this.webRequest.BeginGetRequestStream(new AsyncCallback(firePostDataRequest), webRequest);
             allDone.WaitOne(timeout);
@@ -492,14 +499,9 @@ namespace Qiniu.Http
                             }
                             catch (Exception)
                             {
-                                error = respData;
+
                             }
                         }
-                        else
-                        {
-                            error = "no response";
-                        }
-
                     }
                     ip = webRequest.RequestUri.Authority;
                     response.Close();

@@ -16,17 +16,20 @@ namespace Qiniu.Processing
 
         public PrefopResult prefop()
         {
-            PrefopResult prefopResult = new PrefopResult();
+            PrefopResult prefopResult = null;
 
             this.httpManager.CompletionHandler = new CompletionHandler(delegate(ResponseInfo respInfo, string response)
             {
+                if (respInfo.isOk())
+                {
+                    prefopResult = StringUtils.jsonDecode<PrefopResult>(response);
+                }
+                else
+                {
+                    prefopResult = new PrefopResult();
+                }
                 prefopResult.ResponseInfo = respInfo;
                 prefopResult.Response = response;
-                if (respInfo.isDone())
-                {
-                    PrefopResult result = StringUtils.jsonDecode<PrefopResult>(response);
-                    prefopResult.copyResult(result);
-                }
             });
             string qUrl = string.Format(urlPattern, this.PersistentId);
             this.httpManager.get(qUrl);

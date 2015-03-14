@@ -1,19 +1,13 @@
 ﻿
+using Newtonsoft.Json;
 using Qiniu.Http;
 namespace Qiniu.Processing
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class PfopResult : HttpResult
     {
+        [JsonProperty("persistentId")]
         public string PersistentId { set; get; }
-        public PfopResult()
-        {
-        }
-
-        public PfopResult(ResponseInfo respInfo, string response, string persistentId)
-        {
-            base.ResponseInfo = respInfo;
-            base.Response = response;
-            this.PersistentId = persistentId;
-        }
+        public PfopResult() { }
     }
 }

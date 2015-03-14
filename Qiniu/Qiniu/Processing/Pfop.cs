@@ -28,7 +28,7 @@ namespace Qiniu.Processing
 
         public PfopResult pfop()
         {
-            PfopResult pfopResult = new PfopResult();
+            PfopResult pfopResult = null;
 
             PostArgs postArgs = new PostArgs();
             postArgs.Params.Add("bucket", this.Bucket);
@@ -54,17 +54,16 @@ namespace Qiniu.Processing
             this.httpManager.setAuthHeader(auth);
             this.httpManager.CompletionHandler = new CompletionHandler(delegate(ResponseInfo respInfo, string response)
             {
+                if (respInfo.isOk())
+                {
+                    pfopResult = StringUtils.jsonDecode<PfopResult>(response);
+                }
+                else
+                {
+                    pfopResult = new PfopResult();
+                }
                 pfopResult.ResponseInfo = respInfo;
                 pfopResult.Response = response;
-                if (respInfo.isDone())
-                {
-                    Dictionary<string, string> respDict = StringUtils.jsonDecode<Dictionary<string, string>>(response);
-                    if (respDict.ContainsKey("persistentId"))
-                    {
-                        string persistentId = respDict["persistentId"];
-                        pfopResult.PersistentId = persistentId;
-                    }
-                }
             });
             this.httpManager.post(url);
             return pfopResult;

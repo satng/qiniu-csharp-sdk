@@ -19,6 +19,8 @@ namespace Qiniu.Common
 
         public const string RSF_HOST = "http://rsf.qiniu.com";
 
+        public const string IOVIP_HOST = "http://iovip.qbox.me";
+
         //分片上传切片大小
         public const int CHUNK_SIZE = 2 * 1024 * 1024;
 

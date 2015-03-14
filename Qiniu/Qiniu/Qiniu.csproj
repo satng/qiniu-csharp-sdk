@@ -75,6 +75,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Storage\BucketManager.cs" />
     <Compile Include="Storage\FormUploader.cs" />
+    <Compile Include="Storage\Model\FetchResult.cs" />
+    <Compile Include="Storage\Model\StatResult.cs" />
     <Compile Include="Storage\Persistent\KeyGenerator.cs" />
     <Compile Include="Storage\Persistent\ResumeRecord.cs" />
     <Compile Include="Storage\Persistent\ResumeRecorder.cs" />

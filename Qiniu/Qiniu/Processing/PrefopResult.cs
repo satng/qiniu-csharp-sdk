@@ -19,24 +19,8 @@ namespace Qiniu.Processing
         public string InputKey { set; get; }
         [JsonProperty("items")]
         public List<PfopItem> Items { set; get; }
-        [JsonProperty("keys")]
-        public List<string> Keys { set; get; }
 
-        public PrefopResult()
-        {
-
-        }
-
-        public void copyResult(PrefopResult prefopResult)
-        {
-            this.Id = prefopResult.Id;
-            this.Code = prefopResult.Code;
-            this.Desc = prefopResult.Desc;
-            this.InputBucket = prefopResult.InputBucket;
-            this.InputKey = prefopResult.InputKey;
-            this.Items = prefopResult.Items;
-            this.Keys = prefopResult.Keys;
-        }
+        public PrefopResult() { }
     }
 
     [JsonObject(MemberSerialization.OptIn)]
@@ -54,5 +38,7 @@ namespace Qiniu.Processing
         public string Hash { set; get; }
         [JsonProperty("key")]
         public string Key { set; get; }
+        [JsonProperty("keys")]
+        public List<string> Keys { set; get; }
     }
 }

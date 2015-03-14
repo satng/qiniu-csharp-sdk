@@ -82,7 +82,13 @@ namespace Qiniu.Util
         /// <returns>已解码字符串</returns>
         public static string urlsafeBase64Decode(string from)
         {
-            return Encoding.UTF8.GetString(Convert.FromBase64String(from.Replace('-', '+').Replace('_', '/')));
+            try
+            {
+                return Encoding.UTF8.GetString(Convert.FromBase64String(from.Replace('-', '+').Replace('_', '/')));
+            }
+            catch (Exception ex) {
+                return ex.Message;
+            }
         }
 
         public static string jsonEncode(object obj)
