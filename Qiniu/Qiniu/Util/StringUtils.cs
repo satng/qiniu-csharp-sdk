@@ -105,7 +105,14 @@ namespace Qiniu.Util
 
         public static string encodedEntry(string bucket, string key)
         {
-            return urlSafeBase64Encode(bucket + ":" + key);
+            if (key == null)
+            {
+                return urlSafeBase64Encode(bucket);
+            }
+            else
+            {
+                return urlSafeBase64Encode(bucket + ":" + key);
+            }
         }
 
         public static byte[] sha1(byte[] data)
