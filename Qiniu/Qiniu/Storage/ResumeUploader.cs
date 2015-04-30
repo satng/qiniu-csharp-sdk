@@ -204,6 +204,7 @@ namespace Qiniu.Storage
             }
 
             long offset = recoveryFromResumeRecord();
+            this.fileStream.Seek(offset, SeekOrigin.Begin);
             this.nextTask(offset, 0, Config.UPLOAD_HOST);
         }
         #endregion
@@ -216,7 +217,6 @@ namespace Qiniu.Storage
         {
             try
             {
-                this.fileStream.Seek(0, SeekOrigin.Begin);
                 this.lastModifyTime = DateTime.Now.ToFileTime();
                 this.size = this.fileStream.Length;
                 long blockCount = (this.size % Config.BLOCK_SIZE == 0) ? (this.size / Config.BLOCK_SIZE) : (this.size / Config.BLOCK_SIZE + 1);
@@ -229,6 +229,7 @@ namespace Qiniu.Storage
             }
 
             long offset = recoveryFromResumeRecord();
+            this.fileStream.Seek(offset, SeekOrigin.Begin);
             this.nextTask(offset, 0, Config.UPLOAD_HOST);
         }
         #endregion
