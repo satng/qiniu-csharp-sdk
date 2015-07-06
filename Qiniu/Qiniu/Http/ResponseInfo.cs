@@ -55,6 +55,13 @@ namespace Qiniu.Http
         }
 
         /// <summary>
+        /// 网络故障
+        /// </summary>
+        public static ResponseInfo networkError()
+        {
+            return new ResponseInfo(NetworkError, "", "", "", "", "", 0, "network error");
+        }
+        /// <summary>
         /// 参数不合法
         /// </summary>
         /// <param name="message">错误信息</param>
