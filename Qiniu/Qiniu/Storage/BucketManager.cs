@@ -1,7 +1,9 @@
-﻿using Qiniu.Common;
+﻿using Newtonsoft.Json;
+using Qiniu.Common;
 using Qiniu.Http;
 using Qiniu.Storage.Model;
 using Qiniu.Util;
+using System.Collections.Generic;
 using System.Net;
 using System.Text;
 
@@ -9,7 +11,6 @@ namespace Qiniu.Storage
 {
     public class BucketManager
     {
-        private HttpManager httpManager;
         private Mac mac;
 
         public BucketManager()
@@ -18,7 +19,6 @@ namespace Qiniu.Storage
 
         public BucketManager(Mac mac)
         {
-            this.httpManager = new HttpManager();
             this.mac = mac;
         }
 
@@ -27,8 +27,9 @@ namespace Qiniu.Storage
             StatResult statResult = null;
             string url = string.Format("{0}{1}", Config.RS_HOST, statOp(bucket, key));
             string token = Auth.createManageToken(url, null, this.mac);
-            this.httpManager.setAuthHeader(token);
-            this.httpManager.CompletionHandler = new CompletionHandler(delegate(ResponseInfo respInfo, string response)
+            HttpManager httpManager = new HttpManager();
+            httpManager.setAuthHeader(token);
+            httpManager.CompletionHandler = new CompletionHandler(delegate(ResponseInfo respInfo, string response)
             {
                 if (respInfo.isOk())
                 {
@@ -41,7 +42,7 @@ namespace Qiniu.Storage
                 statResult.Response = response;
                 statResult.ResponseInfo = respInfo;
             });
-            this.httpManager.get(url);
+            httpManager.get(url);
             return statResult;
         }
 
@@ -50,14 +51,15 @@ namespace Qiniu.Storage
             HttpResult deleteResult = null;
             string url = string.Format("{0}{1}", Config.RS_HOST, deleteOp(bucket, key));
             string token = Auth.createManageToken(url, null, this.mac);
-            this.httpManager.setAuthHeader(token);
-            this.httpManager.CompletionHandler = new CompletionHandler(delegate(ResponseInfo respInfo, string response)
+            HttpManager httpManager = new HttpManager();
+            httpManager.setAuthHeader(token);
+            httpManager.CompletionHandler = new CompletionHandler(delegate(ResponseInfo respInfo, string response)
             {
                 deleteResult = new HttpResult();
                 deleteResult.Response = response;
                 deleteResult.ResponseInfo = respInfo;
             });
-            this.httpManager.post(url);
+            httpManager.post(url);
             return deleteResult;
         }
 
@@ -66,14 +68,15 @@ namespace Qiniu.Storage
             HttpResult copyResult = null;
             string url = string.Format("{0}{1}", Config.RS_HOST, copyOp(srcBucket, srcKey, destBucket, destKey));
             string token = Auth.createManageToken(url, null, this.mac);
-            this.httpManager.setAuthHeader(token);
-            this.httpManager.CompletionHandler = new CompletionHandler(delegate(ResponseInfo respInfo, string response)
+            HttpManager httpManager = new HttpManager();
+            httpManager.setAuthHeader(token);
+            httpManager.CompletionHandler = new CompletionHandler(delegate(ResponseInfo respInfo, string response)
             {
                 copyResult = new HttpResult();
                 copyResult.Response = response;
                 copyResult.ResponseInfo = respInfo;
             });
-            this.httpManager.post(url);
+            httpManager.post(url);
             return copyResult;
         }
 
@@ -82,14 +85,15 @@ namespace Qiniu.Storage
             HttpResult moveResult = null;
             string url = string.Format("{0}{1}", Config.RS_HOST, moveOp(srcBucket, srcKey, destBucket, destKey));
             string token = Auth.createManageToken(url, null, this.mac);
-            this.httpManager.setAuthHeader(token);
-            this.httpManager.CompletionHandler = new CompletionHandler(delegate(ResponseInfo respInfo, string response)
+            HttpManager httpManager = new HttpManager();
+            httpManager.setAuthHeader(token);
+            httpManager.CompletionHandler = new CompletionHandler(delegate(ResponseInfo respInfo, string response)
             {
                 moveResult = new HttpResult();
                 moveResult.Response = response;
                 moveResult.ResponseInfo = respInfo;
             });
-            this.httpManager.post(url);
+            httpManager.post(url);
             return moveResult;
         }
 
@@ -98,14 +102,15 @@ namespace Qiniu.Storage
             HttpResult chgmResult = null;
             string url = string.Format("{0}{1}", Config.RS_HOST, chgmOp(bucket, key, mimeType));
             string token = Auth.createManageToken(url, null, this.mac);
-            this.httpManager.setAuthHeader(token);
-            this.httpManager.CompletionHandler = new CompletionHandler(delegate(ResponseInfo respInfo, string response)
+            HttpManager httpManager = new HttpManager();
+            httpManager.setAuthHeader(token);
+            httpManager.CompletionHandler = new CompletionHandler(delegate(ResponseInfo respInfo, string response)
             {
                 chgmResult = new HttpResult();
                 chgmResult.Response = response;
                 chgmResult.ResponseInfo = respInfo;
             });
-            this.httpManager.post(url);
+            httpManager.post(url);
             return chgmResult;
         }
 
@@ -114,8 +119,9 @@ namespace Qiniu.Storage
             HttpResult batchResult = null;
             string url = string.Format("{0}{1}", Config.RS_HOST, "/batch");
             string token = Auth.createManageToken(url, Encoding.UTF8.GetBytes(ops), this.mac);
-            this.httpManager.setAuthHeader(token);
-            this.httpManager.CompletionHandler = new CompletionHandler(delegate(ResponseInfo respInfo, string response)
+            HttpManager httpManager = new HttpManager();
+            httpManager.setAuthHeader(token);
+            httpManager.CompletionHandler = new CompletionHandler(delegate(ResponseInfo respInfo, string response)
             {
                 batchResult = new FetchResult();
                 batchResult.Response = response;
@@ -123,9 +129,9 @@ namespace Qiniu.Storage
             });
             PostArgs postArgs = new PostArgs();
             postArgs.Data = Encoding.UTF8.GetBytes(ops);
-            this.httpManager.Headers.Set(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded");
-            this.httpManager.PostArgs = postArgs;
-            this.httpManager.postData(url);
+            httpManager.Headers.Set(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded");
+            httpManager.PostArgs = postArgs;
+            httpManager.postData(url);
             return batchResult;
         }
 
@@ -134,8 +140,9 @@ namespace Qiniu.Storage
             FetchResult fetchResult = null;
             string url = string.Format("{0}{1}", Config.IOVIP_HOST, fetchOp(remoteResUrl, bucket, key));
             string token = Auth.createManageToken(url, null, this.mac);
-            this.httpManager.setAuthHeader(token);
-            this.httpManager.CompletionHandler = new CompletionHandler(delegate(ResponseInfo respInfo, string response)
+            HttpManager httpManager = new HttpManager();
+            httpManager.setAuthHeader(token);
+            httpManager.CompletionHandler = new CompletionHandler(delegate(ResponseInfo respInfo, string response)
             {
                 if (respInfo.isOk())
                 {
@@ -148,7 +155,7 @@ namespace Qiniu.Storage
                 fetchResult.Response = response;
                 fetchResult.ResponseInfo = respInfo;
             });
-            this.httpManager.post(url);
+            httpManager.post(url);
             return fetchResult;
         }
 
@@ -157,15 +164,39 @@ namespace Qiniu.Storage
             HttpResult prefetchResult = null;
             string url = string.Format("{0}{1}", Config.IOVIP_HOST, prefetchOp(bucket, key));
             string token = Auth.createManageToken(url, null, this.mac);
-            this.httpManager.setAuthHeader(token);
-            this.httpManager.CompletionHandler = new CompletionHandler(delegate(ResponseInfo respInfo, string response)
+            HttpManager httpManager = new HttpManager();
+            httpManager.setAuthHeader(token);
+            httpManager.CompletionHandler = new CompletionHandler(delegate(ResponseInfo respInfo, string response)
             {
                 prefetchResult = new FetchResult();
                 prefetchResult.Response = response;
                 prefetchResult.ResponseInfo = respInfo;
             });
-            this.httpManager.post(url);
+            httpManager.post(url);
             return prefetchResult;
+        }
+
+        public BucketsResult buckets()
+        {
+            BucketsResult bucketsResult = null;
+            List<string> buckets = new List<string>();
+            string url = string.Format("{0}/buckets", Config.RS_HOST);
+            string token = Auth.createManageToken(url, null, this.mac);
+            HttpManager httpManager = new HttpManager();
+            httpManager.setAuthHeader(token);
+            httpManager.CompletionHandler = new CompletionHandler(delegate(ResponseInfo respInfo, string response)
+            {
+                bucketsResult = new BucketsResult();
+                bucketsResult.Response = response;
+                bucketsResult.ResponseInfo = respInfo;
+                if (respInfo.isOk())
+                {
+                    buckets = JsonConvert.DeserializeObject<List<string>>(response);
+                    bucketsResult.Buckets = buckets;
+                }
+            });
+            httpManager.post(url);
+            return bucketsResult;
         }
 
         public string statOp(string bucket, string key)

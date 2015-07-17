@@ -30,17 +30,6 @@ namespace Qiniu.Storage
         }
 
         /// <summary>
-        /// 以指定HttpManager构建上传管理器
-        /// </summary>
-        /// <param name="httpManager">HttpManager对象</param>
-        public UploadManager(HttpManager httpManager)
-        {
-            this.httpManager = httpManager;
-            this.resumeRecorder = null;
-            this.keyGenerator = null;
-        }
-
-        /// <summary>
         /// 以指定的分片上传进度记录器和分片上传记录文件名构建上传管理器
         /// 
         /// 可以指定这两个参数来使分片上传支持断点续传功能
@@ -54,18 +43,6 @@ namespace Qiniu.Storage
             this.keyGenerator = generator;
         }
 
-        /// <summary>
-        /// 以指定的HttpManager对象，分片上传进度记录器和分片上传记录文件名构建上传管理器
-        /// </summary>
-        /// <param name="httpManager">HttpManager对象</param>
-        /// <param name="recorder">分片上传进度记录器</param>
-        /// <param name="generator">分片上传进度记录文件名</param>
-        public UploadManager(HttpManager httpManager, ResumeRecorder recorder, KeyGenerator generator)
-        {
-            this.httpManager = httpManager;
-            this.resumeRecorder = recorder;
-            this.keyGenerator = generator;
-        }
 
         /// <summary>
         /// 上传字节数据
