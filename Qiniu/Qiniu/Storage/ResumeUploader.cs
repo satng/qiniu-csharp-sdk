@@ -51,7 +51,10 @@ namespace Qiniu.Storage
             this.uploadOptions = (uploadOptions == null) ? UploadOptions.defaultOptions() : uploadOptions;
             this.upCompletionHandler = new UpCompletionHandler(delegate(string fileKey, ResponseInfo respInfo, string response)
             {
-                uploadOptions.ProgressHandler(key, 1.0);
+                if (respInfo.isOk())
+                {
+                    uploadOptions.ProgressHandler(key, 1.0);
+                }
 
                 if (this.fileStream != null)
                 {
@@ -82,7 +85,10 @@ namespace Qiniu.Storage
             this.uploadOptions = (uploadOptions == null) ? UploadOptions.defaultOptions() : uploadOptions;
             this.upCompletionHandler = new UpCompletionHandler(delegate(string fileKey, ResponseInfo respInfo, string response)
             {
-                uploadOptions.ProgressHandler(key, 1.0);
+                if (respInfo.isOk())
+                {
+                    uploadOptions.ProgressHandler(key, 1.0);
+                }
 
                 if (this.fileStream != null)
                 {

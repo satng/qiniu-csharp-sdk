@@ -145,7 +145,10 @@ namespace Qiniu.Storage
                     }
                     CompletionHandler retried = new CompletionHandler(delegate(ResponseInfo retryRespInfo, string retryResponse)
                     {
-                        uploadOptions.ProgressHandler(key, 1.0);
+                        if (respInfo.isOk())
+                        {
+                            uploadOptions.ProgressHandler(key, 1.0);
+                        }
 
                         if (httpManager.PostArgs.Stream != null)
                         {
@@ -162,7 +165,10 @@ namespace Qiniu.Storage
                 }
                 else
                 {
-                    uploadOptions.ProgressHandler(key, 1.0);
+                    if (respInfo.isOk())
+                    {
+                        uploadOptions.ProgressHandler(key, 1.0);
+                    }
 
                     if (httpManager.PostArgs.Stream != null)
                     {
