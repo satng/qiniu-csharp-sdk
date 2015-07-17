@@ -101,7 +101,10 @@ namespace Qiniu.Http
             }
             catch (Exception ex)
             {
-                CompletionHandler(ResponseInfo.networkError(), ex.Message);
+                if (CompletionHandler != null)
+                {
+                    CompletionHandler(ResponseInfo.networkError(), ex.Message);
+                }
             }
         }
 
@@ -152,7 +155,10 @@ namespace Qiniu.Http
             }
             catch (Exception ex)
             {
-                CompletionHandler(ResponseInfo.networkError(), ex.Message);
+                if (CompletionHandler != null)
+                {
+                    CompletionHandler(ResponseInfo.networkError(), ex.Message);
+                }
             }
         }
 
@@ -178,7 +184,10 @@ namespace Qiniu.Http
             }
             catch (Exception ex)
             {
-                CompletionHandler(ResponseInfo.networkError(), ex.Message);
+                if (CompletionHandler != null)
+                {
+                    CompletionHandler(ResponseInfo.networkError(), ex.Message);
+                }
             }
         }
 
@@ -216,7 +225,10 @@ namespace Qiniu.Http
             }
             catch (Exception ex)
             {
-                CompletionHandler(ResponseInfo.networkError(), ex.Message);
+                if (CompletionHandler != null)
+                {
+                    CompletionHandler(ResponseInfo.networkError(), ex.Message);
+                }
             }
         }
 
@@ -271,7 +283,10 @@ namespace Qiniu.Http
             }
             catch (Exception ex)
             {
-                CompletionHandler(ResponseInfo.networkError(), ex.Message);
+                if (CompletionHandler != null)
+                {
+                    CompletionHandler(ResponseInfo.networkError(), ex.Message);
+                }
             }
         }
 
@@ -406,7 +421,10 @@ namespace Qiniu.Http
             }
             catch (Exception ex)
             {
-                CompletionHandler(ResponseInfo.networkError(),ex.Message );
+                if (CompletionHandler != null)
+                {
+                    CompletionHandler(ResponseInfo.networkError(), ex.Message);
+                }
             }
         }
 
@@ -459,7 +477,10 @@ namespace Qiniu.Http
             }
             catch (Exception ex)
             {
-                CompletionHandler(ResponseInfo.networkError(), ex.Message);
+                if (CompletionHandler != null)
+                {
+                    CompletionHandler(ResponseInfo.networkError(), ex.Message);
+                }
             }
         }
 

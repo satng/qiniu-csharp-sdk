@@ -13,10 +13,6 @@ namespace Qiniu.Storage
     {
         private Mac mac;
 
-        public BucketManager()
-        {
-        }
-
         public BucketManager(Mac mac)
         {
             this.mac = mac;
