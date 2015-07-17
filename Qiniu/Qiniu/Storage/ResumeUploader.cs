@@ -287,16 +287,29 @@ namespace Qiniu.Storage
         #region 计算每次上传的分片大小
         private int calcBPutChunkSize(long offset)
         {
-            int left = (int)(this.size - offset);
-            return left < Config.CHUNK_SIZE ? left : Config.CHUNK_SIZE;
+            int chunkSize = Config.CHUNK_SIZE;
+            long defaultChunkSize = Config.CHUNK_SIZE;
+            long left = this.size - offset;
+            if (left < defaultChunkSize)
+            {
+                chunkSize = (int)left;
+            }
+            return chunkSize;
         }
         #endregion
 
         #region 计算每次创建的块大小
         private int calcMakeBlockSize(long offset)
         {
-            int left = (int)(this.size - offset);
-            return left < Config.BLOCK_SIZE ? left : Config.BLOCK_SIZE;
+            int blockSize = Config.BLOCK_SIZE;
+            long defaultBlockSize = Config.BLOCK_SIZE;
+
+            long left = this.size - offset;
+            if (left < defaultBlockSize)
+            {
+                blockSize = (int)left;
+            }
+            return blockSize;
         }
         #endregion
 
