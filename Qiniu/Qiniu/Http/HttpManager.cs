@@ -22,7 +22,6 @@ namespace Qiniu.Http
         private const string MULTIPART_BOUNDARY_SEP_TAG = "--";
         private const string MULTIPART_SEP_LINE = "\r\n";
         private const int BUFFER_SIZE = 4096;//4KB
-        private TimeSpan timeout;
         public PostContentType FileContentType { set; get; }
         public PostArgs PostArgs { set; get; }
         public WebHeaderCollection Headers { set; get; }
@@ -30,7 +29,6 @@ namespace Qiniu.Http
         public CompletionHandler CompletionHandler { set; get; }
         public CancellationSignal CancellationSignal { set; get; }
         private MemoryStream postDataMemoryStream;
-        private double duration;
         private DateTime startTime;
 
         /// <summary>
@@ -62,7 +60,6 @@ namespace Qiniu.Http
         /// </summary>
         public HttpManager()
         {
-            this.timeout = new TimeSpan(0, 0, 0, Config.TIMEOUT_INTERVAL);
             this.Headers = new WebHeaderCollection();
         }
 
@@ -96,8 +93,9 @@ namespace Qiniu.Http
                     this.webRequest.Headers[headerKey] = this.Headers[headerKey];
                 }
                 this.webRequest.ContentLength = 0;
+                this.webRequest.Timeout = Config.TIMEOUT_INTERVAL * 1000;
                 this.webRequest.BeginGetResponse(new AsyncCallback(handleResponse), this.webRequest);
-                allDone.WaitOne(timeout);
+                allDone.WaitOne();
             }
             catch (Exception ex)
             {
@@ -148,10 +146,11 @@ namespace Qiniu.Http
                 this.postDataMemoryStream = new MemoryStream(postData);
                 //设置ContentLength头部
                 this.webRequest.ContentLength = this.postDataMemoryStream.Length;
+                this.webRequest.Timeout = Config.TIMEOUT_INTERVAL * 1000;
                 this.webRequest.AllowWriteStreamBuffering = true;
                 this.webRequest.BeginGetRequestStream(new AsyncCallback(firePostRequest),
                     this.webRequest);
-                allDone.WaitOne(timeout);
+                allDone.WaitOne();
             }
             catch (Exception ex)
             {
@@ -205,6 +204,7 @@ namespace Qiniu.Http
                 this.webRequest.Method = "POST";
                 this.webRequest.ContentType = APPLICATION_OCTET_STREAM;
                 this.webRequest.ContentLength = this.PostArgs.Data.Length;
+                this.webRequest.Timeout = Config.TIMEOUT_INTERVAL * 1000;
                 if (this.webRequest.Headers == null)
                 {
                     this.webRequest.Headers = new WebHeaderCollection();
@@ -221,7 +221,7 @@ namespace Qiniu.Http
                     }
                 }
                 this.webRequest.BeginGetRequestStream(new AsyncCallback(firePostDataRequest), webRequest);
-                allDone.WaitOne(timeout);
+                allDone.WaitOne();
             }
             catch (Exception ex)
             {
@@ -408,6 +408,7 @@ namespace Qiniu.Http
                 postDataMemoryStream.Flush();
                 //设置ContentLength
                 this.webRequest.ContentLength = postDataMemoryStream.Length;
+                this.webRequest.Timeout = Config.TIMEOUT_INTERVAL * 1000;
                 if (this.webRequest.Headers == null)
                 {
                     this.webRequest.Headers = new WebHeaderCollection();
@@ -417,7 +418,7 @@ namespace Qiniu.Http
                     this.webRequest.Headers[headerKey] = this.Headers[headerKey];
                 }
                 this.webRequest.BeginGetRequestStream(new AsyncCallback(fireMultipartPostRequest), webRequest);
-                allDone.WaitOne(timeout);
+                allDone.WaitOne();
             }
             catch (Exception ex)
             {
@@ -574,11 +575,11 @@ namespace Qiniu.Http
                         }
                     }
                     ip = webRequest.RequestUri.Authority;
-                    response.Close();
                 }
+                response.Close();
             }
 
-            duration = DateTime.Now.Subtract(this.startTime).TotalSeconds;
+            double duration = DateTime.Now.Subtract(this.startTime).TotalSeconds;
             ResponseInfo respInfo = new ResponseInfo(statusCode, reqId, xlog, xvia, host, ip, duration, error);
             if (this.CompletionHandler != null)
             {
