@@ -81,6 +81,18 @@ namespace Qiniu.Http
             try
             {
                 this.webRequest = (HttpWebRequest)WebRequest.Create(url);
+            }
+            catch (Exception ex)
+            {
+                if (this.CompletionHandler != null)
+                {
+                    this.CompletionHandler(ResponseInfo.invalidRequest(ex.Message), "");
+                    return;
+                }
+            }
+
+            try
+            {
                 this.webRequest.UserAgent = this.getUserAgent();
                 this.webRequest.AllowAutoRedirect = false;
                 this.webRequest.Method = "GET";
@@ -94,17 +106,19 @@ namespace Qiniu.Http
                 }
                 this.webRequest.ContentLength = 0;
                 this.webRequest.Timeout = Config.TIMEOUT_INTERVAL * 1000;
+
                 this.webRequest.BeginGetResponse(new AsyncCallback(handleResponse), this.webRequest);
-                allDone.WaitOne();
+                this.allDone.WaitOne();
             }
             catch (Exception ex)
             {
                 if (CompletionHandler != null)
                 {
-                    CompletionHandler(ResponseInfo.networkError(), ex.Message);
+                    CompletionHandler(ResponseInfo.networkError(ex.Message), "");
                 }
             }
         }
+
 
         /// <summary>
         /// 发送格式为application/x-www-form-urlencoded的POST请求
@@ -116,6 +130,18 @@ namespace Qiniu.Http
             try
             {
                 this.webRequest = (HttpWebRequest)WebRequest.Create(url);
+            }
+            catch (Exception ex)
+            {
+                if (this.CompletionHandler != null)
+                {
+                    this.CompletionHandler(ResponseInfo.invalidRequest(ex.Message), "");
+                    return;
+                }
+            }
+
+            try
+            {
                 this.webRequest.UserAgent = this.getUserAgent();
                 this.webRequest.AllowAutoRedirect = false;
                 this.webRequest.Method = "POST";
@@ -156,7 +182,7 @@ namespace Qiniu.Http
             {
                 if (CompletionHandler != null)
                 {
-                    CompletionHandler(ResponseInfo.networkError(), ex.Message);
+                    CompletionHandler(ResponseInfo.networkError(ex.Message), "");
                 }
             }
         }
@@ -185,7 +211,8 @@ namespace Qiniu.Http
             {
                 if (CompletionHandler != null)
                 {
-                    CompletionHandler(ResponseInfo.networkError(), ex.Message);
+                    CompletionHandler(ResponseInfo.networkError(ex.Message), "");
+                    this.allDone.Set();
                 }
             }
         }
@@ -199,6 +226,19 @@ namespace Qiniu.Http
             try
             {
                 this.webRequest = (HttpWebRequest)WebRequest.Create(url);
+
+            }
+            catch (Exception ex)
+            {
+                if (this.CompletionHandler != null)
+                {
+                    this.CompletionHandler(ResponseInfo.invalidRequest(ex.Message), "");
+                    return;
+                }
+            }
+
+            try
+            {
                 this.webRequest.UserAgent = this.getUserAgent();
                 this.webRequest.AllowAutoRedirect = false;
                 this.webRequest.Method = "POST";
@@ -221,13 +261,13 @@ namespace Qiniu.Http
                     }
                 }
                 this.webRequest.BeginGetRequestStream(new AsyncCallback(firePostDataRequest), webRequest);
-                allDone.WaitOne();
+                this.allDone.WaitOne();
             }
             catch (Exception ex)
             {
                 if (CompletionHandler != null)
                 {
-                    CompletionHandler(ResponseInfo.networkError(), ex.Message);
+                    CompletionHandler(ResponseInfo.networkError(ex.Message), "");
                 }
             }
         }
@@ -285,7 +325,8 @@ namespace Qiniu.Http
             {
                 if (CompletionHandler != null)
                 {
-                    CompletionHandler(ResponseInfo.networkError(), ex.Message);
+                    CompletionHandler(ResponseInfo.networkError(ex.Message), "");
+                    this.allDone.Set();
                 }
             }
         }
@@ -299,6 +340,18 @@ namespace Qiniu.Http
             try
             {
                 this.webRequest = (HttpWebRequest)WebRequest.Create(url);
+            }
+            catch (Exception ex)
+            {
+                if (this.CompletionHandler != null)
+                {
+                    this.CompletionHandler(ResponseInfo.invalidRequest(ex.Message), "");
+                    return;
+                }
+            }
+
+            try
+            {
                 this.webRequest.UserAgent = this.getUserAgent();
                 this.webRequest.AllowAutoRedirect = false;
                 this.webRequest.Method = "POST";
@@ -424,7 +477,8 @@ namespace Qiniu.Http
             {
                 if (CompletionHandler != null)
                 {
-                    CompletionHandler(ResponseInfo.networkError(), ex.Message);
+                    CompletionHandler(ResponseInfo.networkError(ex.Message), "");
+                    this.allDone.Set();
                 }
             }
         }
@@ -480,7 +534,8 @@ namespace Qiniu.Http
             {
                 if (CompletionHandler != null)
                 {
-                    CompletionHandler(ResponseInfo.networkError(), ex.Message);
+                    CompletionHandler(ResponseInfo.networkError(ex.Message), "");
+                    this.allDone.Set();
                 }
             }
         }
@@ -570,7 +625,7 @@ namespace Qiniu.Http
                             }
                             catch (Exception)
                             {
-
+                                //no error means success
                             }
                         }
                     }

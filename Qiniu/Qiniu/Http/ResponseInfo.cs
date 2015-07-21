@@ -7,6 +7,7 @@ namespace Qiniu.Http
     /// </summary>
     public class ResponseInfo
     {
+        public const int InvalidRequest = -5;
         public const int InvalidArgument = -4;
         public const int InvalidFile = -3;
         public const int Cancelled = -2;
@@ -57,9 +58,9 @@ namespace Qiniu.Http
         /// <summary>
         /// 网络故障
         /// </summary>
-        public static ResponseInfo networkError()
+        public static ResponseInfo networkError(string message)
         {
-            return new ResponseInfo(NetworkError, "", "", "", "", "", 0, "network error");
+            return new ResponseInfo(NetworkError, "", "", "", "", "", 0, message);
         }
         /// <summary>
         /// 参数不合法
@@ -69,6 +70,11 @@ namespace Qiniu.Http
         public static ResponseInfo invalidArgument(string message)
         {
             return new ResponseInfo(InvalidArgument, "", "", "", "", "", 0, message);
+        }
+
+        public static ResponseInfo invalidRequest(string message)
+        {
+            return new ResponseInfo(InvalidRequest, "", "", "", "", "", 0, message);
         }
 
         /// <summary>
