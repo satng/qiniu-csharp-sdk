@@ -613,21 +613,6 @@ namespace Qiniu.Http
                     using (StreamReader respStream = new StreamReader(response.GetResponseStream()))
                     {
                         respData = respStream.ReadToEnd();
-                        if (respData != null)
-                        {
-                            try
-                            {
-                                Dictionary<string, string> respErrorDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(respData);
-                                if (respErrorDict != null && respErrorDict.ContainsKey("error"))
-                                {
-                                    error = respErrorDict["error"];
-                                }
-                            }
-                            catch (Exception)
-                            {
-                                //no error means success
-                            }
-                        }
                     }
                     ip = webRequest.RequestUri.Authority;
                 }
