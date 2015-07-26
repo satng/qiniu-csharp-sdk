@@ -84,11 +84,12 @@ namespace Qiniu.Http
             }
             catch (Exception ex)
             {
+                
                 if (this.CompletionHandler != null)
                 {
                     this.CompletionHandler(ResponseInfo.invalidRequest(ex.Message), "");
-                    return;
                 }
+                return;
             }
 
             try
@@ -106,17 +107,17 @@ namespace Qiniu.Http
                 }
                 this.webRequest.ContentLength = 0;
                 this.webRequest.Timeout = Config.TIMEOUT_INTERVAL * 1000;
-
                 this.webRequest.BeginGetResponse(new AsyncCallback(handleResponse), this.webRequest);
-                this.allDone.WaitOne();
             }
             catch (Exception ex)
             {
+                
                 if (CompletionHandler != null)
                 {
                     CompletionHandler(ResponseInfo.networkError(ex.Message), "");
                 }
             }
+            this.allDone.WaitOne();
         }
 
 
@@ -133,11 +134,12 @@ namespace Qiniu.Http
             }
             catch (Exception ex)
             {
+                
                 if (this.CompletionHandler != null)
                 {
-                    this.CompletionHandler(ResponseInfo.invalidRequest(ex.Message), "");
-                    return;
+                    this.CompletionHandler(ResponseInfo.invalidRequest(ex.Message), "");    
                 }
+                return;
             }
 
             try
@@ -175,16 +177,17 @@ namespace Qiniu.Http
                 this.webRequest.Timeout = Config.TIMEOUT_INTERVAL * 1000;
                 this.webRequest.AllowWriteStreamBuffering = true;
                 this.webRequest.BeginGetRequestStream(new AsyncCallback(firePostRequest),
-                    this.webRequest);
-                allDone.WaitOne();
+                    this.webRequest); 
             }
             catch (Exception ex)
             {
+                
                 if (CompletionHandler != null)
                 {
                     CompletionHandler(ResponseInfo.networkError(ex.Message), "");
                 }
             }
+            this.allDone.WaitOne();
         }
 
         /// <summary>
@@ -208,12 +211,12 @@ namespace Qiniu.Http
                 request.BeginGetResponse(new AsyncCallback(handleResponse), request);
             }
             catch (Exception ex)
-            {
+            { 
                 if (CompletionHandler != null)
                 {
                     CompletionHandler(ResponseInfo.networkError(ex.Message), "");
-                    this.allDone.Set();
                 }
+                this.allDone.Set();
             }
         }
 
@@ -230,11 +233,12 @@ namespace Qiniu.Http
             }
             catch (Exception ex)
             {
+                
                 if (this.CompletionHandler != null)
                 {
-                    this.CompletionHandler(ResponseInfo.invalidRequest(ex.Message), "");
-                    return;
-                }
+                    this.CompletionHandler(ResponseInfo.invalidRequest(ex.Message), "");   
+                } 
+                return;
             }
 
             try
@@ -260,16 +264,16 @@ namespace Qiniu.Http
                         this.webRequest.Headers[headerKey] = this.Headers[headerKey];
                     }
                 }
-                this.webRequest.BeginGetRequestStream(new AsyncCallback(firePostDataRequest), webRequest);
-                this.allDone.WaitOne();
+                this.webRequest.BeginGetRequestStream(new AsyncCallback(firePostDataRequest), webRequest);  
             }
             catch (Exception ex)
-            {
+            {    
                 if (CompletionHandler != null)
                 {
                     CompletionHandler(ResponseInfo.networkError(ex.Message), "");
                 }
             }
+            this.allDone.WaitOne();
         }
 
         /// <summary>
@@ -295,12 +299,17 @@ namespace Qiniu.Http
                 {
                     //检查取消信号
                     if (CancellationSignal != null && CancellationSignal())
-                    {
+                    { 
+                        try
+                        {
+                            postDataStream.Close();
+                        }
+                        catch (Exception) { }
                         if (CompletionHandler != null)
                         {
                             CompletionHandler(ResponseInfo.cancelled(), "");
                         }
-                        postDataStream.Close();
+                        this.allDone.Set();
                         return;
                     }
                     int offset = i * BUFFER_SIZE;
@@ -326,8 +335,8 @@ namespace Qiniu.Http
                 if (CompletionHandler != null)
                 {
                     CompletionHandler(ResponseInfo.networkError(ex.Message), "");
-                    this.allDone.Set();
-                }
+                } 
+                this.allDone.Set();
             }
         }
 
@@ -343,11 +352,12 @@ namespace Qiniu.Http
             }
             catch (Exception ex)
             {
+                
                 if (this.CompletionHandler != null)
                 {
                     this.CompletionHandler(ResponseInfo.invalidRequest(ex.Message), "");
-                    return;
-                }
+                } 
+                return;
             }
 
             try
@@ -425,6 +435,7 @@ namespace Qiniu.Http
                     }
                     catch (Exception ex)
                     {
+                        
                         if (this.CompletionHandler != null)
                         {
                             this.CompletionHandler(ResponseInfo.fileError(ex), "");
@@ -445,6 +456,7 @@ namespace Qiniu.Http
                     }
                     catch (Exception ex)
                     {
+                        
                         if (this.CompletionHandler != null)
                         {
                             this.CompletionHandler(ResponseInfo.fileError(ex), "");
@@ -471,16 +483,15 @@ namespace Qiniu.Http
                     this.webRequest.Headers[headerKey] = this.Headers[headerKey];
                 }
                 this.webRequest.BeginGetRequestStream(new AsyncCallback(fireMultipartPostRequest), webRequest);
-                allDone.WaitOne();
             }
             catch (Exception ex)
             {
                 if (CompletionHandler != null)
                 {
-                    CompletionHandler(ResponseInfo.networkError(ex.Message), "");
-                    this.allDone.Set();
+                    CompletionHandler(ResponseInfo.networkError(ex.Message), "");    
                 }
-            }
+            } 
+            this.allDone.WaitOne();
         }
 
         /// <summary>
@@ -510,11 +521,16 @@ namespace Qiniu.Http
                     //检查取消信号
                     if (this.CancellationSignal != null && this.CancellationSignal())
                     {
+                        try
+                        {
+                            postDataStream.Close();
+                        }catch(Exception){}
+
                         if (this.CompletionHandler != null)
                         {
                             this.CompletionHandler(ResponseInfo.cancelled(), "");
                         }
-                        postDataStream.Close();
+                        this.allDone.Set();
                         return;
                     }
                     postDataStream.Write(memBuffer, 0, memNumRead);
@@ -534,9 +550,9 @@ namespace Qiniu.Http
             {
                 if (CompletionHandler != null)
                 {
-                    CompletionHandler(ResponseInfo.networkError(ex.Message), "");
-                    this.allDone.Set();
-                }
+                    CompletionHandler(ResponseInfo.networkError(ex.Message), "");   
+                } 
+                this.allDone.Set();
             }
         }
 
@@ -625,7 +641,7 @@ namespace Qiniu.Http
             {
                 this.CompletionHandler(respInfo, respData);
             }
-            allDone.Set();
+            this.allDone.Set();
         }
     }
 }
