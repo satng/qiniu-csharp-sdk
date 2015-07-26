@@ -40,9 +40,9 @@ namespace Qiniu.Storage.Persistent
         /// <param name="data">上传进度数据</param>
         public void set(string key, byte[] data)
         {
-            string filePath = Path.Combine(this.dir, StringUtils.urlSafeBase64Encode(key));
-			using (FileStream stream =
-				new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            string filePath = Path.Combine(this.dir, key);
+            using (FileStream stream =
+                new FileStream(filePath, FileMode.Create, FileAccess.Write))
             {
                 stream.Write(data, 0, data.Length);
                 stream.Flush();
@@ -57,7 +57,7 @@ namespace Qiniu.Storage.Persistent
         public byte[] get(string key)
         {
             byte[] data = null;
-            string filePath = Path.Combine(this.dir, StringUtils.urlSafeBase64Encode(key));
+            string filePath = Path.Combine(this.dir, key);
             try
             {
 				using (FileStream stream =
@@ -80,7 +80,7 @@ namespace Qiniu.Storage.Persistent
         /// <param name="key">记录文件名</param>
         public void del(string key)
         {
-            string filePath = Path.Combine(this.dir, StringUtils.urlSafeBase64Encode(key));
+            string filePath = Path.Combine(this.dir, key);
             try
             {
 				File.Delete(filePath);
