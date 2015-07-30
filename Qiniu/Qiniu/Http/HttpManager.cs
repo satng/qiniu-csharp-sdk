@@ -21,7 +21,7 @@ namespace Qiniu.Http
         private const string MULTIPART_BOUNDARY = "-------CSharpSDKBoundaryjEdoki6WbQVQuakI";
         private const string MULTIPART_BOUNDARY_SEP_TAG = "--";
         private const string MULTIPART_SEP_LINE = "\r\n";
-        private const int BUFFER_SIZE = 4096;//4KB
+        private const int BUFFER_SIZE = 512 * 1024; //512KB
         public PostContentType FileContentType { set; get; }
         public PostArgs PostArgs { set; get; }
         public WebHeaderCollection Headers { set; get; }
