@@ -107,17 +107,17 @@ namespace Qiniu.Http
                 }
                 this.webRequest.ContentLength = 0;
                 this.webRequest.Timeout = Config.TIMEOUT_INTERVAL * 1000;
-                this.webRequest.BeginGetResponse(new AsyncCallback(handleResponse), this.webRequest);
+                this.webRequest.BeginGetResponse(new AsyncCallback(handleResponse), this.webRequest); 
+                this.allDone.WaitOne();
             }
             catch (Exception ex)
             {
-                
                 if (CompletionHandler != null)
                 {
                     CompletionHandler(ResponseInfo.networkError(ex.Message), "");
                 }
             }
-            this.allDone.WaitOne();
+           
         }
 
 
@@ -134,7 +134,6 @@ namespace Qiniu.Http
             }
             catch (Exception ex)
             {
-                
                 if (this.CompletionHandler != null)
                 {
                     this.CompletionHandler(ResponseInfo.invalidRequest(ex.Message), "");    
@@ -176,18 +175,17 @@ namespace Qiniu.Http
                 this.webRequest.ContentLength = this.postDataMemoryStream.Length;
                 this.webRequest.Timeout = Config.TIMEOUT_INTERVAL * 1000;
                 this.webRequest.AllowWriteStreamBuffering = true;
-                this.webRequest.BeginGetRequestStream(new AsyncCallback(firePostRequest),
-                    this.webRequest); 
+                this.webRequest.BeginGetRequestStream(new AsyncCallback(firePostRequest), this.webRequest);     
+                this.allDone.WaitOne();
             }
             catch (Exception ex)
             {
-                
                 if (CompletionHandler != null)
                 {
                     CompletionHandler(ResponseInfo.networkError(ex.Message), "");
                 }
             }
-            this.allDone.WaitOne();
+        
         }
 
         /// <summary>
@@ -211,7 +209,7 @@ namespace Qiniu.Http
                 request.BeginGetResponse(new AsyncCallback(handleResponse), request);
             }
             catch (Exception ex)
-            { 
+            {                 
                 if (CompletionHandler != null)
                 {
                     CompletionHandler(ResponseInfo.networkError(ex.Message), "");
@@ -264,7 +262,8 @@ namespace Qiniu.Http
                         this.webRequest.Headers[headerKey] = this.Headers[headerKey];
                     }
                 }
-                this.webRequest.BeginGetRequestStream(new AsyncCallback(firePostDataRequest), webRequest);  
+                this.webRequest.BeginGetRequestStream(new AsyncCallback(firePostDataRequest), webRequest);   
+                this.allDone.WaitOne();
             }
             catch (Exception ex)
             {    
@@ -273,7 +272,7 @@ namespace Qiniu.Http
                     CompletionHandler(ResponseInfo.networkError(ex.Message), "");
                 }
             }
-            this.allDone.WaitOne();
+           
         }
 
         /// <summary>
@@ -456,7 +455,6 @@ namespace Qiniu.Http
                     }
                     catch (Exception ex)
                     {
-                        
                         if (this.CompletionHandler != null)
                         {
                             this.CompletionHandler(ResponseInfo.fileError(ex), "");
@@ -482,7 +480,8 @@ namespace Qiniu.Http
                 {
                     this.webRequest.Headers[headerKey] = this.Headers[headerKey];
                 }
-                this.webRequest.BeginGetRequestStream(new AsyncCallback(fireMultipartPostRequest), webRequest);
+                this.webRequest.BeginGetRequestStream(new AsyncCallback(fireMultipartPostRequest), webRequest);            
+                this.allDone.WaitOne();
             }
             catch (Exception ex)
             {
@@ -491,7 +490,7 @@ namespace Qiniu.Http
                     CompletionHandler(ResponseInfo.networkError(ex.Message), "");    
                 }
             } 
-            this.allDone.WaitOne();
+
         }
 
         /// <summary>
