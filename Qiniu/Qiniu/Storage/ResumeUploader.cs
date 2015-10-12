@@ -53,7 +53,7 @@ namespace Qiniu.Storage
             {
                 if (respInfo.isOk())
                 {
-                    uploadOptions.ProgressHandler(key, 1.0);
+                    this.uploadOptions.ProgressHandler(key, 1.0);
                 }
 
                 if (this.fileStream != null)
