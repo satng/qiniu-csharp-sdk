@@ -43,7 +43,7 @@ namespace Qiniu.Common
         {
             Config.UPLOAD_HOST = Zone.ZONE_NB.UploadHost;
             Config.UPLOAD_BACKUP_HOST = Zone.ZONE_NB.UploadBackupHost;
-            Config.RS_HOST = Zone.ZONE_NB.RsfHost;
+            Config.RS_HOST = Zone.ZONE_NB.RsHost;
             Config.RSF_HOST = Zone.ZONE_NB.RsfHost;
             Config.API_HOST = Zone.ZONE_NB.ApiHost;
             Config.IOVIP_HOST = Zone.ZONE_NB.IovipHost;
@@ -54,7 +54,7 @@ namespace Qiniu.Common
         {
             Config.UPLOAD_HOST = Zone.ZONE_BC.UploadHost;
             Config.UPLOAD_BACKUP_HOST = Zone.ZONE_BC.UploadBackupHost;
-            Config.RS_HOST = Zone.ZONE_BC.RsfHost;
+            Config.RS_HOST = Zone.ZONE_BC.RsHost;
             Config.RSF_HOST = Zone.ZONE_BC.RsfHost;
             Config.API_HOST = Zone.ZONE_BC.ApiHost;
             Config.IOVIP_HOST = Zone.ZONE_BC.IovipHost;
@@ -65,7 +65,7 @@ namespace Qiniu.Common
         {
             Config.UPLOAD_HOST = Zone.ZONE_AWS.UploadHost;
             Config.UPLOAD_BACKUP_HOST = Zone.ZONE_AWS.UploadBackupHost;
-            Config.RS_HOST = Zone.ZONE_AWS.RsfHost;
+            Config.RS_HOST = Zone.ZONE_AWS.RsHost;
             Config.RSF_HOST = Zone.ZONE_AWS.RsfHost;
             Config.API_HOST = Zone.ZONE_AWS.ApiHost;
             Config.IOVIP_HOST = Zone.ZONE_AWS.IovipHost;
@@ -76,7 +76,7 @@ namespace Qiniu.Common
         {
             Config.UPLOAD_HOST = Zone.ZONE_ABROAD_NB.UploadHost;
             Config.UPLOAD_BACKUP_HOST = Zone.ZONE_ABROAD_NB.UploadBackupHost;
-            Config.RS_HOST = Zone.ZONE_ABROAD_NB.RsfHost;
+            Config.RS_HOST = Zone.ZONE_ABROAD_NB.RsHost;
             Config.RSF_HOST = Zone.ZONE_ABROAD_NB.RsfHost;
             Config.API_HOST = Zone.ZONE_ABROAD_NB.ApiHost;
             Config.IOVIP_HOST = Zone.ZONE_ABROAD_NB.IovipHost;
