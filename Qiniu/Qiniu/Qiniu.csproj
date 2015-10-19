@@ -47,6 +47,12 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>qiniu.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net35\Newtonsoft.Json.dll</HintPath>
@@ -60,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Config.cs" />
+    <Compile Include="Common\Zone.cs" />
     <Compile Include="Http\CancellationSignal.cs" />
     <Compile Include="Http\CompletionHandler.cs" />
     <Compile Include="Http\HttpManager.cs" />
@@ -96,7 +103,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="codesign.pfx" />
     <None Include="packages.config" />
+    <None Include="qiniu.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

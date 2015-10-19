@@ -1,4 +1,5 @@
-﻿using Qiniu.Http;
+﻿using Qiniu.Common;
+using Qiniu.Http;
 using Qiniu.Util;
 using System.Collections.Generic;
 using System.Text;
@@ -8,7 +9,6 @@ namespace Qiniu.Processing
     public class Pfop
     {
         private HttpManager httpManager;
-        private string url = "http://api.qiniu.com/pfop/";
         public string Bucket { set; get; }
         public string Key { set; get; }
         public string Fops { set; get; }
@@ -47,7 +47,9 @@ namespace Qiniu.Processing
                 postArgs.Params.Add("pipeline", this.Pipeline);
             }
 
-            string auth = Auth.createManageToken(url, Encoding.UTF8.GetBytes(StringUtils.urlParamsJoin(postArgs.Params)), this.Mac);
+            string apiAddress = Config.API_HOST + "/pfop/";
+
+            string auth = Auth.createManageToken(apiAddress, Encoding.UTF8.GetBytes(StringUtils.urlParamsJoin(postArgs.Params)), this.Mac);
 
             //set http manager
             this.httpManager.PostArgs = postArgs;
@@ -65,7 +67,7 @@ namespace Qiniu.Processing
                 pfopResult.ResponseInfo = respInfo;
                 pfopResult.Response = response;
             });
-            this.httpManager.post(url);
+            this.httpManager.post(apiAddress);
             return pfopResult;
         }
     }

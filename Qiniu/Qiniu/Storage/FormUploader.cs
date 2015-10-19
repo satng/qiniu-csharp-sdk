@@ -161,7 +161,7 @@ namespace Qiniu.Storage
                         }
                     });
                     httpManager.CompletionHandler = retried;
-                    httpManager.multipartPost(Config.UP_HOST);
+                    httpManager.multipartPost(Config.UPLOAD_BACKUP_HOST);
                 }
                 else
                 {

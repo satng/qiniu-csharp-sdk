@@ -1,11 +1,11 @@
 ﻿
+using Qiniu.Common;
 using Qiniu.Http;
 using Qiniu.Util;
 namespace Qiniu.Processing
 {
     public class Prefop
     {
-        private string urlPattern = "http://api.qiniu.com/status/get/prefop?id={0}";
         private HttpManager httpManager;
         public string PersistentId { set; get; }
         public Prefop(string persistentId)
@@ -31,7 +31,7 @@ namespace Qiniu.Processing
                 prefopResult.ResponseInfo = respInfo;
                 prefopResult.Response = response;
             });
-            string qUrl = string.Format(urlPattern, this.PersistentId);
+            string qUrl = string.Format(Config.API_HOST + "/status/get/prefop?id={0}", this.PersistentId);
             this.httpManager.get(qUrl);
             return prefopResult;
         }
