@@ -629,6 +629,17 @@ namespace Qiniu.Http
                     {
                         respData = respStream.ReadToEnd();
                     }
+
+                    try
+                    {
+                        if (statusCode != 200)
+                        {
+                            Dictionary<string,string> errorDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(respData);
+                            error = errorDict["error"];
+                        }
+                    }
+                    catch (Exception) { }
+
                     ip = webRequest.RequestUri.Authority;
                 }
                 response.Close();
