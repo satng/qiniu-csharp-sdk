@@ -17,7 +17,7 @@ namespace Qiniu.Common
 
         public static string RS_HOST = "http://rs.qiniu.com";
 
-        public static string RSF_HOST = "http://rsf.qiniu.com";
+        public static string RSF_HOST = "http://rsf.qbox.me";
 
         public static string API_HOST = "http://api.qiniu.com";
 

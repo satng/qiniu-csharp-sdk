@@ -27,7 +27,7 @@ namespace Qiniu.Common
         public static Zone ZONE_NB = new Zone("http://up.qiniu.com",
                                             "http://upload.qiniu.com",
                                             "http://rs.qiniu.com",
-                                            "http://rsf.qiniu.com",
+                                            "http://rsf.qbox.me",
                                             "http://api.qiniu.com",
                                             "http://iovip.qbox.me"
                                             );
@@ -35,7 +35,7 @@ namespace Qiniu.Common
         public static Zone ZONE_BC = new Zone("http://up-z1.qiniu.com",
                                             "http://upload-z1.qiniu.com",
                                             "http://rs-z1.qiniu.com",
-                                            "http://rsf-z1.qiniu.com",
+                                            "http://rsf-z1.qbox.me",
                                             "http://api-z1.qiniu.com",
                                             "http://iovip-z1.qbox.me"
                                             );
@@ -51,7 +51,7 @@ namespace Qiniu.Common
         public static Zone ZONE_ABROAD_NB = new Zone("http://up.qiniug.com",
                                             "http://up.qiniu.com",
                                             "http://rs.qiniu.com",
-                                            "http://rsf.qiniu.com",
+                                            "http://rsf.qbox.com",
                                             "http://api.qiniu.com",
                                             "http://iovip.qbox.me"
                                             );
