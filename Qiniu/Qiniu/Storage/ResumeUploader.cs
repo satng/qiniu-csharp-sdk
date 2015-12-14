@@ -149,6 +149,19 @@ namespace Qiniu.Storage
         #region 发送mkfile请求
         private void makeFile(string upHost, CompletionHandler completionHandler)
         {
+
+            string fname = this.key;
+            if (!string.IsNullOrEmpty(this.filePath))
+            {
+                fname = Path.GetFileName(this.filePath);
+            }
+
+            string fnameStr = "";
+            if (!string.IsNullOrEmpty(fname))
+            {
+                fnameStr = string.Format("/fname/{0}", StringUtils.urlSafeBase64Encode(fname));
+            }
+
             string mimeTypeStr = string.Format("/mimeType/{0}", StringUtils.urlSafeBase64Encode(this.uploadOptions.MimeType));
 
             string keyStr = "";
@@ -169,7 +182,7 @@ namespace Qiniu.Storage
                 paramsStr = "/" + StringUtils.join(paramArray, "/");
             }
 
-            string url = string.Format("{0}/mkfile/{1}{2}{3}{4}", upHost, this.size, mimeTypeStr, keyStr, paramsStr);
+            string url = string.Format("{0}/mkfile/{1}{2}{3}{4}{5}", upHost, this.size, mimeTypeStr, fnameStr, keyStr, paramsStr);
             string postBody = StringUtils.join(this.contexts, ",");
             byte[] postBodyData = Encoding.UTF8.GetBytes(postBody);
             post(url, postBodyData, postBodyData.Length, null, completionHandler);
